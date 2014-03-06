@@ -1,7 +1,7 @@
 {
-	"name": "philippfrenzel/yii2pinit",
-	"description": "Yii2 pinit Integration",
-	"keywords": ["yii","yii2pinit.js"],
+	"name": "philippfrenzel/yii2ipicture",
+	"description": "Yii2 iPicture Integration",
+	"keywords": ["yii","ipicture.js"],
 	"homepage": "http://www.frenzel.net/",
 	"type": "yii2-extension",
 	"license": "MIT",
@@ -14,13 +14,13 @@
 		}
 	],
 	"support": {
-		"source": "https://github.com/philippfrenzel/yii2pinit"
+		"source": "https://github.com/philippfrenzel/yii2ipicture"
 	},
 	"require": {
 		"yiisoft/yii2": "*"
 	},
 	"autoload": {
-		"psr-0": { "philippfrenzel\\yii2pinit\\": "" }
+		"psr-0": { "philippfrenzel\\yii2ipicture\\": "" }
 	},
-	"target-dir": "philippfrenzel/yii2pinit"
+	"target-dir": "philippfrenzel/yii2ipicture"
 }

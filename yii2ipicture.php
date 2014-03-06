@@ -8,7 +8,7 @@
  *
  */
 
-namespace philippfrenzel\yii2pinit;
+namespace philippfrenzel\yii2ipicture;
 
 use Yii;
 use yii\base\Model;
@@ -17,7 +17,7 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\base\Widget as Widget;
 
-class yii2pinit extends Widget
+class yii2ipicture extends Widget
 {
 
     /**
@@ -25,20 +25,15 @@ class yii2pinit extends Widget
     * The values will be HTML-encoded using [[Html::encode()]].
     * If a value is null, the corresponding attribute will not be rendered.
     */
-    public $options = array();
+    public $options = array(
+      'target' => 'iPicture'
+    );
 
 
     /**
     * @var array all attributes that be accepted by the plugin, check docs!
     */
-    public $clientOptions = array(
-        'get'         => 'tagged',
-        'target'      => '#instafeedtarget',
-        'tagName'     => 'awesome',
-        'userId'      => 'abcded',
-        'accessToken' => '123456_abcedef',
-        'template'    => '<a href="{{link}}"><img src="{{image}}" /></a>'
-    );
+    public $clientOptions = array();
 
     /**
      * Initializes the widget.
@@ -71,39 +66,16 @@ class yii2pinit extends Widget
     protected function registerPlugin()
     {
         $id = $this->options['id'];
+        $target = $this->options['target'];
 
         //get the displayed view and register the needed assets
         $view = $this->getView();
-        yii2pinitAsset::register($view);
+        yii2ipictureAsset::register($view);
 
-$js = <<< SKRIPT
-  jQuery('.pinterest-image img').after('<div class="hover-pinterest"></div>');
-  jQuery('.hover-pinterest').append('<a class="pin-it-link" target="_blank"></a>');
-  jQuery('.pinterest-image').hover(
-    function() {
-      var imgurl = jQuery('img', this).attr('src');
-      var encodedurl = encodeURIComponent(imgurl);
-      var pathname = jQuery(location).attr('href');
-      url = encodeURIComponent(pathname);
-      var desc = encodeURIComponent('enter description here');
-      var pinhref = 'http://pinterest.com/pin/create/button/?url=';
-      pinhref += url;
-      pinhref += '&media=';
-      pinhref += encodedurl;
-      pinhref += '&description=';
-      pinhref += desc;
-      jQuery('.hover-pinterest a',this).attr('href',pinhref);
-      var pinwidth = jQuery(this).width();
-      var pinheight = jQuery(this).height();
-      jQuery('.hover-pinterest',this).css('display','block');
-      jQuery('.hover-pinterest',this).css('width',pinwidth);
-      jQuery('.hover-pinterest',this).css('height',pinheight);
-    },function() {
-      jQuery('.hover-pinterest',this).css('display','none');
-    });
-SKRIPT;
-
-        $view->registerJs($js,View::POS_READY);
+        $cleanOptions = Json::encode($this->clientOptions);
+        $js[] = "$('#$target').iPicture();";
+        
+        $view->registerJs(implode("\n", $js),View::POS_READY);
     }
 
 }
